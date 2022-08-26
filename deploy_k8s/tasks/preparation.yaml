@@ -1,0 +1,38 @@
+---
+- name: Enable routing
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    state: present
+    reload: true
+- name: Install br_netfilter
+  ansible.builtin.modprobe:
+    name: br_netfilter
+    state: present
+- name: Install overlay
+  ansible.builtin.modprobe:
+    name: overlay
+    state: present
+- name: Add modules in autoload
+  ansible.builtin.shell:
+    echo -e "overlay\nbr_netfilter" > /etc/modules-load.d/k8s.conf
+- name: Enable bridging
+  ansible.posix.sysctl:
+    name: net.bridge.bridge-nf-call-iptables
+    value: '1'
+    state: present
+    reload: true
+- name: Enable nftables
+  ansible.builtin.systemd:
+    enabled: true
+    state: started
+    name: nftables
+- name: Set-up containerd
+  ansible.builtin.copy:
+    src: config.toml
+    dest: /etc/containerd/
+- name: Restart containerd
+  ansible.builtin.systemd:
+    name: containerd
+    state: restarted
+    enabled: true

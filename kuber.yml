@@ -1,0 +1,6 @@
+- name: Install Kubernetes
+  hosts: server1
+  become: true
+  any_errors_fatal: true
+  roles:
+    - { role: deploy_k8s, when: ansible_os_family == "Debian" }

@@ -1,0 +1,8 @@
+---
+# tasks file for deploy_k8s
+- ansible.builtin.include_tasks:
+    package_manager.yaml
+- ansible.builtin.include_tasks:
+    preparation.yaml
+- ansible.builtin.include_tasks:
+    configure-k8s.yaml
