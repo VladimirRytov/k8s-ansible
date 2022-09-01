@@ -5,4 +5,8 @@
 - ansible.builtin.include_tasks:
     preparation.yaml
 - ansible.builtin.include_tasks:
-    configure-k8s.yaml
+    configure-k8s-master.yaml
+  when: {{ node_role }} == "control_node"
+- ansible.builtin.include_tasks:
+        configure-k8s-worker.yaml
+  when: {{ node_role }} == "worker"

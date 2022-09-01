@@ -1,0 +1,14 @@
+---
+- name: "Initialize kubernetes"
+  ansible.builtin.shell: {{ kubeadm_join }} 
+- name: update bash-completion
+  ansible.builtin.shell:
+    kubectl completion bash > /usr/share/bash-completion/completions/kubectl      
+- name: Prepearing to use
+  ansible.builtin.shell:
+    mkdir -p $HOME/.kube && sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config && sudo chown $(id -u):$(id -g) $HOME/.kube/config
+  become: false
+- name: Install CNI
+  become: false
+  ansible.builtin.shell:
+    kubectl create -f {{ cni_url }}
