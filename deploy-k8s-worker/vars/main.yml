@@ -1,5 +1,4 @@
 ---
 # vars file for deploy_k8s
 host: debian
-first_control_plane: yes
 cni_url: https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml

@@ -1,6 +1,6 @@
 ---
 - name: "Initialize kubernetes"
-  ansible.builtin.shell: {{ kubeadm_join }} 
+  ansible.builtin.shell: kubeadm join {{ control_plane }} --token {{ token }} --discovery-token-ca-cert-hash {{ discovery-token }}
 - name: update bash-completion
   ansible.builtin.shell:
     kubectl completion bash > /usr/share/bash-completion/completions/kubectl      
@@ -12,3 +12,7 @@
   become: false
   ansible.builtin.shell:
     kubectl create -f {{ cni_url }}
+- name: Disable control-node taint
+  become: false
+  ansible.builtin.shell:
+    kubectl taint nodes --all node-role.kubernetes.io/control-plane-

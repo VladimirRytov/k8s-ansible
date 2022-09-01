@@ -1,6 +1,10 @@
 ---
+- name: "Initialize first control plane"
+  ansible.builtin.shell: kubeadm init --pod-network-cidr=10.244.0.0/16 > kubeadm.secret # --control-plane-endpoint={{ ansible_hostname }}
+  when: first_control_plane == "yes"
 - name: "Initialize kubernetes"
-  ansible.builtin.shell: kubeadm init --control-plane-endpoint={{ ansible_hostname }} --pod-network-cidr=10.244.0.0/16 > kubeadm.secret 
+  ansible.builtin.shell: kubeadm join {{ control_plane }} --token {{ token }} --discovery-token-ca-cert-hash {{ discovery-token }} --control-plane-endpoint={{ ansible_hostname }} --control-plane
+  when: first_control_plane != "yes"
 - name: update bash-completion
   ansible.builtin.shell:
     kubectl completion bash > /usr/share/bash-completion/completions/kubectl      
