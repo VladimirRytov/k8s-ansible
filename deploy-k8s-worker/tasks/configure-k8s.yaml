@@ -1,18 +1,3 @@
 ---
-- name: "Initialize kubernetes"
-  ansible.builtin.shell: kubeadm join {{ control_plane }} --token {{ token }} --discovery-token-ca-cert-hash {{ discovery-token }}
-- name: update bash-completion
-  ansible.builtin.shell:
-    kubectl completion bash > /usr/share/bash-completion/completions/kubectl      
-- name: Prepearing to use
-  ansible.builtin.shell:
-    mkdir -p $HOME/.kube && sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config && sudo chown $(id -u):$(id -g) $HOME/.kube/config
-  become: false
-- name: Install CNI
-  become: false
-  ansible.builtin.shell:
-    kubectl create -f {{ cni_url }}
-- name: Disable control-node taint
-  become: false
-  ansible.builtin.shell:
-    kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+- name: "Initialize worker" 
+  ansible.builtin.shell: kubeadm join {{ control_plane }} --token {{ token }} --discovery-token-ca-cert-hash {{ discovery_token }} > kubeworker

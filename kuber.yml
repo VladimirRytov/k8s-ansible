@@ -1,5 +1,5 @@
 - name: Install Kubernetes
-  hosts: server1
+  hosts: control_plane
   become: true
   any_errors_fatal: true
   roles:

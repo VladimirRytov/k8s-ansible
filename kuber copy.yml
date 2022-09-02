@@ -1,0 +1,6 @@
+- name: Install Kubernetes
+  hosts: workers
+  become: true
+  any_errors_fatal: true
+  roles:
+    - { role: deploy-k8s-worker, when: ansible_os_family == "Debian" }

@@ -18,7 +18,6 @@
     name:
       - kubeadm
       - kubelet
-      - kubectl
     state: present
 - name: Mark kubeadm
   ansible.builtin.dpkg_selections:
@@ -27,8 +26,4 @@
 - name: Mark kubelet
   ansible.builtin.dpkg_selections:
     name: kubelet
-    selection: hold
-- name: Mark kubectl
-  ansible.builtin.dpkg_selections:
-    name: kubectl
     selection: hold

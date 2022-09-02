@@ -2,3 +2,6 @@
 # vars file for deploy_k8s
 host: debian
 cni_url: https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+token: qdydoz.uct9kmtd1q16sss2
+discovery_token: sha256:95784b73ddb8c2ddd3c3fd2f19f43ade019029b69870abb4e709c965edcba40a
+control_plane: 192.168.1.188:6443
