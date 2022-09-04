@@ -20,15 +20,11 @@
       - kubelet
       - kubectl
     state: present
-- name: Mark kubeadm
+- name: Mark kubeadm,kubelet,kubectl
   ansible.builtin.dpkg_selections:
-    name: kubeadm
+    name: {{ item }}
     selection: hold
-- name: Mark kubelet
-  ansible.builtin.dpkg_selections:
-    name: kubelet
-    selection: hold
-- name: Mark kubectl
-  ansible.builtin.dpkg_selections:
-    name: kubectl
-    selection: hold
+  loop: 
+    - kubeadm
+    - kubelet
+    - kubectl
