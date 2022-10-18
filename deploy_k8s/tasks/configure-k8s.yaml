@@ -1,6 +1,8 @@
 ---
 - name: "Initialize first control plane"
-  ansible.builtin.shell: kubeadm init --pod-network-cidr=10.244.0.0/16 > kubeadm.secret  
+  ansible.builtin.shell: kubeadm init --pod-network-cidr=10.244.0.0/16 
+  register: kubeadm-output
+
 - name: Update bash-completion
   ansible.builtin.shell:
     kubectl completion bash > /usr/share/bash-completion/completions/kubectl
@@ -16,3 +18,10 @@
   become: false
   ansible.builtin.shell:
     kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+- name: Final
+  ansible.builtin.debug:
+    msg: 
+    - Done. If you want to add workers please use deploy-k8s-worker with theese variables
+    - token':' {{ kubeadm-output.stdout_lines[-2:-1] | regex_replace('kubeadm join .* --token') | regex_replace('\\') }}
+    - discovery_token':' {{ kubeadm-output.stdout_lines[-1:] | regex_replace('\\t--discovery-token-ca-cert-hash')}}
+    - control_plane':' {{ kubeadm-output.stdout_lines[-2:-1] | regex_search('((\d{,3}\.?){4}:\d{1,5})') | regex_replace('\\') }}

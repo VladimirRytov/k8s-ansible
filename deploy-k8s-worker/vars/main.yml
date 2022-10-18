@@ -1,5 +1,5 @@
 ---
 # vars file for deploy_k8s
-token: gbbj8u.p1yuew5jo9ar3ghy
-discovery_token: sha256:8654fa16161ff0395edc4e998a9798e36232a5986332482e9ae34f18ccddf69f
-control_plane: 192.168.1.184:6443
+token: 
+discovery_token: 
+control_plane: 
