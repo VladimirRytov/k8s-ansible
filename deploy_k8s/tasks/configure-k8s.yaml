@@ -1,7 +1,7 @@
 ---
 - name: "Initialize first control plane"
   ansible.builtin.shell: kubeadm init --pod-network-cidr=10.244.0.0/16 
-  register: kubeadm-output
+    register: kubeadm-output
 
 - name: Update bash-completion
   ansible.builtin.shell:
