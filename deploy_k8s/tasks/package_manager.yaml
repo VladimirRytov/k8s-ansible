@@ -2,10 +2,12 @@
 - name: Install tools
   ansible.builtin.apt:
     name:
+      - nftables
       - apt-transport-https
       - ca-certificates
       - curl
       - containerd
+      - bash-completion
     state: present
 - name: "Download key"
   ansible.builtin.shell: 'curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg'
@@ -22,9 +24,9 @@
     state: present
 - name: Mark kubeadm,kubelet,kubectl
   ansible.builtin.dpkg_selections:
-    name: {{ item }}
+    name: "{{ item }}"
     selection: hold
-  loop: 
+  loop:
     - kubeadm
     - kubelet
     - kubectl

@@ -6,6 +6,7 @@
       - ca-certificates
       - curl
       - containerd
+      - bash-completion
     state: present
 - name: "Download key"
   ansible.builtin.shell: 'curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg'
@@ -21,7 +22,7 @@
     state: present
 - name: Mark kubeadm,kubelet
   ansible.builtin.dpkg_selections:
-    name: {{ item }}
+    name: "{{ item }}"
     selection: hold
   loop: 
     - kubeadm
